@@ -78,7 +78,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Macbeth\Desktop\physxLearning\thirdparty\stb;C:\Users\Macbeth\Desktop\physxLearning\thirdparty\imgui;C:\Users\Macbeth\Desktop\physxLearning\thirdparty\glm;C:\Users\Macbeth\Desktop\physxLearning\thirdparty\sdl2\include;C:\Users\Macbeth\Desktop\physxLearning\thirdparty\glad\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\Users\Macbeth\Desktop\physxLearning\thirdparty\pxshared\include;C:\Users\Macbeth\Desktop\physxLearning\thirdparty\physx\include;C:\Users\Macbeth\Desktop\physxLearning\thirdparty\stb;C:\Users\Macbeth\Desktop\physxLearning\thirdparty\imgui;C:\Users\Macbeth\Desktop\physxLearning\thirdparty\glm;C:\Users\Macbeth\Desktop\physxLearning\thirdparty\sdl2\include;C:\Users\Macbeth\Desktop\physxLearning\thirdparty\glad\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\Macbeth\Desktop\physxLearning\lib;$(LibraryPath)</LibraryPath>
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
   </PropertyGroup>

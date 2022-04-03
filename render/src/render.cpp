@@ -1,5 +1,28 @@
 #include "../include/render.h"
 
+#define MAX_NUM_ACTOR_SHAPES 128
+
+using namespace physx;
+
+static float gCylinderData[] = {
+    1.0f,0.0f,1.0f,1.0f,0.0f,1.0f,1.0f,0.0f,0.0f,1.0f,0.0f,0.0f,
+    0.866025f,0.500000f,1.0f,0.866025f,0.500000f,1.0f,0.866025f,0.500000f,0.0f,0.866025f,0.500000f,0.0f,
+    0.500000f,0.866025f,1.0f,0.500000f,0.866025f,1.0f,0.500000f,0.866025f,0.0f,0.500000f,0.866025f,0.0f,
+    -0.0f,1.0f,1.0f,-0.0f,1.0f,1.0f,-0.0f,1.0f,0.0f,-0.0f,1.0f,0.0f,
+    -0.500000f,0.866025f,1.0f,-0.500000f,0.866025f,1.0f,-0.500000f,0.866025f,0.0f,-0.500000f,0.866025f,0.0f,
+    -0.866025f,0.500000f,1.0f,-0.866025f,0.500000f,1.0f,-0.866025f,0.500000f,0.0f,-0.866025f,0.500000f,0.0f,
+    -1.0f,-0.0f,1.0f,-1.0f,-0.0f,1.0f,-1.0f,-0.0f,0.0f,-1.0f,-0.0f,0.0f,
+    -0.866025f,-0.500000f,1.0f,-0.866025f,-0.500000f,1.0f,-0.866025f,-0.500000f,0.0f,-0.866025f,-0.500000f,0.0f,
+    -0.500000f,-0.866025f,1.0f,-0.500000f,-0.866025f,1.0f,-0.500000f,-0.866025f,0.0f,-0.500000f,-0.866025f,0.0f,
+    0.0f,-1.0f,1.0f,0.0f,-1.0f,1.0f,0.0f,-1.0f,0.0f,0.0f,-1.0f,0.0f,
+    0.500000f,-0.866025f,1.0f,0.500000f,-0.866025f,1.0f,0.500000f,-0.866025f,0.0f,0.500000f,-0.866025f,0.0f,
+    0.866026f,-0.500000f,1.0f,0.866026f,-0.500000f,1.0f,0.866026f,-0.500000f,0.0f,0.866026f,-0.500000f,0.0f,
+    1.0f,0.0f,1.0f,1.0f,0.0f,1.0f,1.0f,0.0f,0.0f,1.0f,0.0f,0.0f
+};
+
+#define MAX_NUM_MESH_VEC3S  1024
+static PxVec3 gVertexBuffer[MAX_NUM_MESH_VEC3S];
+
 int testImgui() {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't initialize SDL: %s", SDL_GetError());
@@ -128,4 +151,92 @@ int testImgui() {
     SDL_Quit();
 
     return 0;
+}
+
+Render::SDLRender::SDLRender()
+{
+    setupDefaultWindow("untitled");
+}
+
+Render::SDLRender::SDLRender(const char* name)
+{
+    setupDefaultWindow(name);
+}
+
+Render::SDLRender::~SDLRender()
+{
+    SDL_GL_DeleteContext(context);
+    SDL_DestroyWindow(window);
+}
+
+int Render::SDLRender::setupDefaultWindow(const char* name)
+{
+    const unsigned int SCR_WIDTH = 800;
+    const unsigned int SCR_HEIGHT = 600;
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't initialize SDL: %s", SDL_GetError());
+        return 3;
+    }
+
+    window = SDL_CreateWindow(name, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+        SCR_WIDTH, SCR_HEIGHT,
+        SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+    
+    //load sdl2 opengl func adress
+    context = SDL_GL_CreateContext(window);
+    gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress);
+    return 0;
+}
+
+void Render::SDLRender::setupDefaultRenderState()
+{
+    // Setup default render states
+    glClearColor(0.3f, 0.4f, 0.5f, 1.0);
+    glEnable(GL_DEPTH_TEST);
+
+}
+
+void Render::SDLRender::startRender(const physx::PxVec3& cameraEye, const physx::PxVec3& cameraDir, physx::PxReal nearClip, physx::PxReal farClip)
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+}
+
+void Render::SDLRender::finishRender()
+{
+    SDL_GL_SwapWindow(window);
+}
+
+void Render::SDLRender::renderActors(PxRigidActor** actors, const PxU32 numActors, bool shadows = false, const PxVec3& color = physx::PxVec3(0.0f, 0.75f, 0.0f), TriggerRender* cb = nullptr)
+{
+    const PxVec3 shadowDir(0.0f, -0.7071067f, -0.7071067f);
+    const PxReal shadowMat[] = { 1,0,0,0, -shadowDir.x / shadowDir.y,0,-shadowDir.z / shadowDir.y,0, 0,0,1,0, 0,0,0,1 };
+
+    PxShape* shapes[MAX_NUM_ACTOR_SHAPES];
+    for (PxU32 i = 0; i < numActors; i++)
+    {
+        const PxU32 nbShapes = actors[i]->getNbShapes();
+        PX_ASSERT(nbShapes <= MAX_NUM_ACTOR_SHAPES);
+        actors[i]->getShapes(shapes, nbShapes);
+        const bool sleeping = actors[i]->is<PxRigidDynamic>() ? actors[i]->is<PxRigidDynamic>()->isSleeping() : false;
+
+        for (PxU32 j = 0; j < nbShapes; j++)
+        {
+            const PxMat44 shapePose(PxShapeExt::getGlobalPose(*shapes[j], *actors[i]));
+            const PxGeometryHolder h = shapes[j]->getGeometry();
+
+            const bool isTrigger = cb ? cb->isTrigger(shapes[j]) : shapes[j]->getFlags() & PxShapeFlag::eTRIGGER_SHAPE;
+            if (isTrigger)
+                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+            // render object
+            
+        }
+    }
+}
+
+
+
+void Render::SDLRender::renderGeoms(const physx::PxU32 nbGeoms, const physx::PxGeometryHolder* geoms, const physx::PxTransform* poses, bool shadows, const physx::PxVec3& color)
+{
 }

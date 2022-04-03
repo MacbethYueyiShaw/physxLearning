@@ -2,7 +2,7 @@
 #include <PxPhysicsAPI.h>
 
 int main(int argc, char* argv[]){
-    testImgui();
+    Render::SDLRender render("test");
     // declare variables
     physx::PxDefaultAllocator      mDefaultAllocatorCallback;
     physx::PxDefaultErrorCallback  mDefaultErrorCallback;
