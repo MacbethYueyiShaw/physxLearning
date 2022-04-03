@@ -1,6 +1,8 @@
-﻿#include <PxPhysicsAPI.h>
+﻿#include "../render/include/render.h"
+#include <PxPhysicsAPI.h>
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]){
+    testImgui();
     // declare variables
     physx::PxDefaultAllocator      mDefaultAllocatorCallback;
     physx::PxDefaultErrorCallback  mDefaultErrorCallback;
@@ -63,8 +65,6 @@ int main(int argc, char** argv) {
         }
     }
     shape->release();
-
-
 
 
     // run simulation

@@ -13,5 +13,75 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\imgui">
+      <UniqueIdentifier>{2e31e4d2-3ad6-45c1-bd19-6ed8a806fdc6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\render.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\imconfig.h">
+      <Filter>头文件\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\imgui.h">
+      <Filter>头文件\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\imgui_internal.h">
+      <Filter>头文件\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\imstb_rectpack.h">
+      <Filter>头文件\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\imstb_textedit.h">
+      <Filter>头文件\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\imstb_truetype.h">
+      <Filter>头文件\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\backends\imgui_impl_opengl3.h">
+      <Filter>头文件\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\backends\imgui_impl_opengl3_loader.h">
+      <Filter>头文件\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\backends\imgui_impl_sdl.h">
+      <Filter>头文件\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\imgui\backends\imgui_impl_sdlrenderer.h">
+      <Filter>头文件\imgui</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\render.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\glad\src\glad.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\imgui\imgui.cpp">
+      <Filter>头文件\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\imgui\imgui_demo.cpp">
+      <Filter>头文件\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\imgui\imgui_draw.cpp">
+      <Filter>头文件\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\imgui\imgui_tables.cpp">
+      <Filter>头文件\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\imgui\imgui_widgets.cpp">
+      <Filter>头文件\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\imgui\backends\imgui_impl_opengl3.cpp">
+      <Filter>头文件\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\imgui\backends\imgui_impl_sdl.cpp">
+      <Filter>头文件\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\imgui\backends\imgui_impl_sdlrenderer.cpp">
+      <Filter>头文件\imgui</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
